@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Artiste;
 class ArtisteController extends Controller
@@ -29,9 +29,13 @@ class ArtisteController extends Controller
         //validation 
         $request->validate([
             'name'=>'required',
-            'user_id'=>'required'
         ]);
-        return Artiste::create($request->all());
+        $data=array();
+        $data['name']=$request->name;
+        $data['user_id']=Auth::user()->id;
+       
+        
+        return Artiste::create($data);
     }
 
     /**
@@ -53,12 +57,18 @@ class ArtisteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         //
         $artiste=Artiste::find($id);
-        $artiste->update($request->all());
-        return $artiste;
+        $artiste->update([
+            'name'=>$request->name,
+            'user_id'=>Auth::user()->id
+        ]);
+        
+        return response()->json([
+            'message'=> "updated successfuly",
+            'artistes'=>$artiste
+        ]);
     }
 
     /**

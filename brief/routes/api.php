@@ -62,4 +62,5 @@ Route::group(['middleware'=>['auth:sanctum','authadmin']],function(){
     Route::post('addmusic', [MusiqueController::class,'store']);
     Route::delete('deletemusic/{id}', [MusiqueController::class,'delete']);
     Route::post('updatemusique/{id}',[MusiqueController::class,'update']);
+    Route::put('roleUpdate/{id}',[AuthController::class,'roleUpdate']);
 });

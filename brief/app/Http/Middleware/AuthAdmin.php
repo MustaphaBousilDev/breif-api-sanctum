@@ -22,7 +22,7 @@ class AuthAdmin
         }else{
             session()->flush();
             return response([
-                'message'=>'failed to create'
+                'message'=>'you are not admin'
             ],401);
         }
         return $next($request);

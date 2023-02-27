@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
+use Auth;
 use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
@@ -52,6 +53,18 @@ class AuthController extends Controller
         return [
             'message'=>'Deconnection'
         ];
+    }
+    public function roleUpdate($id , Request $request){
+        //change role user
+        $user=User::find($id);
+        if(Auth::user()->utype=='ADM'){
+            //update user role  method put
+            $user->utype=$request->utype;
+            $user->save();
+            return response()->json(['message'=>'role changed']);
+        }else{
+            return response()->json(['message'=>'you are not admin']);
+        }
     }
 
 }
